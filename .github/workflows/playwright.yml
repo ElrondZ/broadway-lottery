@@ -1,15 +1,14 @@
 name: Playwright Tests
 
 on:
-  workflow_dispatch:  # 👈 添加这个以便手动触发测试
+  workflow_dispatch:  # 手动触发
   schedule:
-    # Run every day at 14:05 UTC
-    - cron: "05 14 * * *"
+    - cron: "05 14 * * *"  # 每天定时运行
 
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # ✅ 改这里，使用稳定版本
     steps:
       - uses: actions/checkout@v3
 
@@ -17,7 +16,6 @@ jobs:
         with:
           node-version: 18
 
-      # 👇 预加载 upload-artifact，防止 metadata 问题
       - name: Preload upload-artifact (GitHub bug workaround)
         uses: actions/upload-artifact@v4
         if: false
@@ -46,7 +44,7 @@ jobs:
         run: xvfb-run npx playwright test
 
       - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4  # 👈 使用 v4 更稳定
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
