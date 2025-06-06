@@ -1,8 +1,11 @@
 name: Playwright Tests
+
 on:
+  workflow_dispatch:  # 添加这个支持手动触发
   schedule:
-    # Run every day at 14:23 UTC
-    - cron: "31 04 * * *"
+    # Run every day at 04:31 UTC
+    - cron: "10 0 * * *"
+
 jobs:
   test:
     timeout-minutes: 60
